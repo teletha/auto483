@@ -18,6 +18,9 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JEP483 supporter.
+ */
 public class JEP483 {
 
     /**
