@@ -7,7 +7,7 @@
  *
  *          http://opensource.org/licenses/mit-license.php
  */
-package com.github.teletha;
+package auto483;
 
 import java.io.File;
 import java.io.IOError;

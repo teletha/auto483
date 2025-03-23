@@ -10,10 +10,14 @@
  */
 import static bee.api.License.*;
 
+import javax.lang.model.SourceVersion;
+
 public class Project extends bee.api.Project {
     {
         product("com.github.teletha", "auto483", ref("version.txt"));
         license(MIT);
+        require(SourceVersion.RELEASE_24);
+
         versionControlSystem("https://github.com/teletha/auto483");
     }
 }
