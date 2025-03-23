@@ -9,7 +9,6 @@
  */
 package auto483;
 
-import java.io.File;
 import java.io.IOError;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -17,6 +16,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * JEP483 supporter.
@@ -36,11 +36,9 @@ public class JEP483 {
      * @param cacheFileName The name of cache file.
      */
     public static void enable(String cacheFileName) {
-        Path cache = Path.of(cacheFileName);
-        if (Files.notExists(cache)) {
+        if (Files.notExists(Path.of(cacheFileName))) {
             List<String> jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
-            List<String> javaArgs = List.of(System.getProperty("sun.java.command").split(" "));
-            List<String> classpath = List.of(System.getProperty("java.class.path").split(File.pathSeparator));
+            List<String> classpath = List.of(System.getProperty("java.class.path").split(";"));
 
             if (jvmArgs.contains("-XX:AOTMode=record")) {
                 // This application is running in training mode.
@@ -50,27 +48,29 @@ public class JEP483 {
                         List<String> command = new ArrayList<>();
                         command.add(ProcessHandle.current().info().command().get());
                         command.add("-XX:AOTMode=create");
-                        command.add("-XX:AOTConfiguration=.aotconf");
+                        command.add("-XX:AOTConfiguration=" + cacheFileName + "conf");
                         command.add("-XX:AOTCache=" + cacheFileName);
                         command.add("-cp");
-                        command.addAll(classpath.stream().filter(path -> Files.isRegularFile(Path.of(path))).toList());
+                        command.add(classpath.stream().filter(path -> Files.isRegularFile(Path.of(path))).collect(Collectors.joining(";")));
 
-                        new ProcessBuilder(command).inheritIO().start();
-                    } catch (IOException e) {
+                        new ProcessBuilder(command).inheritIO().start().waitFor();
+                    } catch (Exception e) {
                         throw new IOError(e);
                     }
                 }));
-            } else {
+            } else if (jvmArgs.contains("-XX:AOTCache=" + cacheFileName)) {
+                List<String> javaArgs = List.of(System.getProperty("sun.java.command").split(" "));
+
                 try {
                     // This application is running normally.
-                    // Switch to training mode and restart.
+                    // Restart with training mode.
                     List<String> command = new ArrayList<>();
                     command.add(ProcessHandle.current().info().command().get());
                     command.addAll(jvmArgs.stream().filter(value -> !value.startsWith("-XX:AOT")).toList());
                     command.add("-XX:AOTMode=record");
-                    command.add("-XX:AOTConfiguration=.aotconf");
+                    command.add("-XX:AOTConfiguration=" + cacheFileName + "conf");
                     command.add("-cp");
-                    command.addAll(classpath);
+                    command.add(classpath.stream().collect(Collectors.joining(";")));
                     command.addAll(javaArgs);
 
                     // restart process
@@ -81,8 +81,6 @@ public class JEP483 {
                     System.exit(0);
                 }
             }
-        } else {
-            System.out.println("Cache is found, do nothing.");
         }
     }
 
