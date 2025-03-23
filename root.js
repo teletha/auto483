@@ -2,14 +2,14 @@ const root = {
 	"docs": [],
 	"modules": [],
 	"packages": [
-		"com.github.teletha"
+		"auto483"
 	],
 	"types": [
 		{
 			"modifiers": {
 				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "JEP483",
-			"packageName": "com.github.teletha",
+			"packageName": "auto483",
 			"type": "Class"
 		}
 	]
