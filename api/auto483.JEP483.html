@@ -19,10 +19,10 @@
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="i">
-		<header class="j" date="" ver="0.1">
-			<h1 class="m"><code>Auto483</code></h1>
-			<nav class="Y"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
+	<body class="W">
+		<header class="Q" date="" ver="0.1">
+			<h1 class="R"><code>Auto483</code></h1>
+			<nav class="O"><a href="api/" id="API"><svg class="package A svg" viewBox="0 0 24 24">
 						<use href="main.svg#package"/>
 					</svg>
 				</a><a href="https://github.com/teletha/auto483/discussions" id="Community" target="_blank"><svg class="user A svg" viewBox="0 0 24 24">
@@ -35,56 +35,88 @@
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="n"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
+			<div class="S"><a aria-label="Change color scheme" id="theme"><svg class="sun A svg" viewBox="0 0 24 24">
 						<use href="main.svg#sun"/>
 					</svg><svg class="moon A svg" viewBox="0 0 24 24">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="k"></nav>
-		<article class="f" id="Article">
-			<section class="s"><code class="T">auto483</code>
-				<h2 class="Class a"><code class="d">JEP483</code></h2>
-				<div class="H"></div><span class="B"><p>JEP483 supporter.</p></span></section>
-			<section class="s" id="JEP483()">
-				<h2 class="I"><i class="PUBLIC"></i><code class="d">JEP483</code><code class="R">()</code></h2>
+		<nav class="Y"></nav>
+		<article class="X" id="Article">
+			<section class="e"><code class="I">auto483</code>
+				<h2 class="Class m"><code class="o">JEP483</code></h2>
+				<div class="k"></div><span class="B"><p>Provides support for JEP 483 (Ahead-of-Time Class Loading  Linking).</p><p>
+ This utility class helps in managing the creation and usage of Ahead-of-Time (AOT)
+ cache files introduced in Java 24. It aims to simplify the process of leveraging
+ AOT compilation to potentially improve application startup performance.
+ 
+						<p>
+ The <code><a aria-label="auto483.JEP483" href="api/auto483.JEP483.html#enable()">#enable()</a></code> methods check for the existence of an AOT cache file.
+ If the file doesn&#39;t exist, this class orchestrates the necessary steps to
+ generate it. This might involve restarting the application in a special
+ &#34;record&#34; mode or setting up a shutdown hook to create the cache upon exit.
+</p>
+					</p>
+				</span></section>
+			<section class="e" id="JEP483()">
+				<h2 class="g"><i class="PUBLIC"></i><code class="o">JEP483</code><code class="N">()</code></h2>
 			</section>
-			<section class="s" id="enable()">
-				<h2 class="I"><i class="STATIC PUBLIC"></i><code class="d">enable</code><code class="R">()</code><i class="e"><code>void</code></i></h2><span class="B"><p>Enable Ahead of time Loading and Linking.</p></span></section>
-			<section class="s" id="enable(java.lang.String)">
-				<h2 class="I"><i class="STATIC PUBLIC"></i><code class="d">enable</code><code class="R">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="e"><code>void</code></i></h2>
-				<table class="L">
-					<tr class="c">
+			<section class="e" id="enable()">
+				<h2 class="g"><i class="STATIC PUBLIC"></i><code class="o">enable</code><code class="N">()</code><i class="q"><code>void</code></i></h2><span class="B"><p>Enables Ahead-of-Time (AOT) loading and linking using the default cache file name
+<code>.aot</code>.</p><p>
+ This is a convenience method that calls <code><a aria-label="auto483.JEP483" href="api/auto483.JEP483.html#enable(java.lang.String)">#enable(String)</a></code> with &#34;.aot&#34; as the cache file
+ name.
+ </p></span></section>
+			<section class="e" id="enable(java.lang.String)">
+				<h2 class="g"><i class="STATIC PUBLIC"></i><code class="o">enable</code><code class="N">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="q"><code>void</code></i></h2>
+				<table class="h">
+					<tr class="J">
 						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code></td>
-						<td><span><p>The name of cache file.</p></span></td>
+						<td><span><p>The name (or path) of the AOT cache file to use or create.
+This name is used for both the AOT cache (<code>-XX:AOTCache</code>)
+and the AOT configuration file (<code>-XX:AOTConfiguration</code>,
+with &#38;quot;conf&#38;quot; appended).</p></span></td>
 					</tr>
-				</table><span class="B"><p>Enable Ahead of time Loading and Linking.</p></span></section>
-			<section class="s" id="main(java.lang.String[])">
-				<h2 class="I"><i class="STATIC PUBLIC"></i><code class="d">main</code><code class="R">(<code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">args</code>)</code><i class="e"><code>void</code></i></h2>
-				<table class="L">
-					<tr class="c">
-						<td><code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">args</code></td>
-						<td></td>
-					</tr>
-				</table>
-			</section>
+				</table><span class="B"><p>Enables Ahead-of-Time (AOT) loading and linking using the specified cache file name.</p><p>
+ This method checks if the specified AOT cache file exists. If it does not exist,
+ it manages the process of generating the cache based on the current JVM execution mode:
+ </p><ul>
+						<li><b>Normal Mode (Attempting to use cache):</b> If the JVM was started with
+ <code>-XX:AOTCache=&#60;cacheFileName&#62;</code> but the file is missing, this method
+ will restart the current application with the <code>-XX:AOTMode=record</code> flag.
+ The current process will be terminated (<code>System.exit(0)</code>). The restarted
+ process will then run the application and record AOT compilation data.
+ </li>
+						<li><b>Record Mode:</b> If the JVM was started with <code>-XX:AOTMode=record</code>,
+ this method registers a shutdown hook. When the application exits normally,
+ the shutdown hook will launch a new JVM process with <code>-XX:AOTMode=create</code>
+ to compile the recorded data into the final AOT cache file.
+ </li>
+					</ul><p>
+ If the cache file already exists, this method does nothing, allowing the JVM to
+ load the AOT cache as configured.
+ </p><p>
+ Note: The cache generation process involves starting new JVM processes. Ensure that
+ the necessary permissions and environment setup are in place for this to succeed.
+ The classpath used for the cache generation process is derived from the current
+ application&#39;s classpath.
+ </p></span></section>
 		</article>
-		<aside class="J">
-			<div class="Q">
-				<h5 class="h">Constructors</h5>
+		<aside class="Z">
+			<div class="j">
+				<h5 class="M">Constructors</h5>
 				<ul>
-					<li class="M"><i class="PUBLIC"></i><code><a href="api/auto483.JEP483.html#JEP483()">JEP483</a></code><code class="R">()</code></li>
+					<li class="T"><i class="PUBLIC"></i><code><a href="api/auto483.JEP483.html#JEP483()">JEP483</a></code><code class="N">()</code></li>
 				</ul>
-				<h5 class="h">Static Methods</h5>
+				<h5 class="M">Static Methods</h5>
 				<ul>
-					<li class="M"><i class="STATIC PUBLIC"></i><code><a href="api/auto483.JEP483.html#enable()">enable</a></code><code class="R">()</code><i class="O"><code>void</code></i></li>
-					<li class="M"><i class="STATIC PUBLIC"></i><code><a href="api/auto483.JEP483.html#enable(java.lang.String)">enable</a></code><code class="R">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="O"><code>void</code></i></li>
-					<li class="M"><i class="STATIC PUBLIC"></i><code><a href="api/auto483.JEP483.html#main(java.lang.String[])">main</a></code><code class="R">(<code array="fix"><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">args</code>)</code><i class="O"><code>void</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/auto483.JEP483.html#enable()">enable</a></code><code class="N">()</code><i class="d"><code>void</code></i></li>
+					<li class="T"><i class="STATIC PUBLIC"></i><code><a href="api/auto483.JEP483.html#enable(java.lang.String)">enable</a></code><code class="N">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/19/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="d"><code>void</code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="V"/>
+		<footer class="s"/>
 	</body>
 	<script src="root.js"></script>
 	<script src="main.js" type="module"></script>
