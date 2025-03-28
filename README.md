@@ -58,7 +58,7 @@ Add it into the libraryDependencies section like so:
 libraryDependencies += "com.github.teletha" % "auto483" % "0.1"
 ```
 #### [Leiningen](https://leiningen.org/)
-Add JitPack repository at the end of repositories in your project.clj:
+Add JitPack repository at the end of repositories in your project().clj:
 ```clj
 :repositories [["jitpack" "https://jitpack.io"]]
 ```
