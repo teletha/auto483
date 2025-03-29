@@ -89,6 +89,10 @@ public class JEP483 {
      *             creation process to complete.
      */
     public static void enable(String cacheFileName) {
+        if (Runtime.version().feature() < 24) {
+            return;
+        }
+
         Path file = Path.of(cacheFileName);
         if (Files.notExists(file)) {
             List<String> jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
