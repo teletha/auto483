@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/teletha/auto483/compare/1.0.0...1.0.1) (2025-03-29)
+
+
+### Bug Fixes
+
+* check runtime version ([8c5ce53](https://github.com/teletha/auto483/commit/8c5ce53f0a247be494a207af238936dfa10d3e83))
+
 ## 1.0.0 (2025-03-28)
 
 
