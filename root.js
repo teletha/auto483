@@ -6,8 +6,6 @@ const root = {
 	],
 	"types": [
 		{
-			"modifiers": {
-				"#": "java.util.Collections$UnmodifiableSet",},
 			"name": "JEP483",
 			"packageName": "auto483",
 			"type": "Class"
