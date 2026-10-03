@@ -30,7 +30,7 @@ Add JitPack repository at the end of repositories element in your build.xml:
 Add it into in the dependencies element like so:
 ```xml
 <dependency>
-    <groupId>com.github.teletha</groupId>
+    <groupId>io.github.teletha</groupId>
     <artifactId>auto483</artifactId>
     <version>1.0.0</version>
 </dependency>
@@ -45,7 +45,7 @@ repositories {
 Add it into the dependencies section like so:
 ```gradle
 dependencies {
-    implementation 'com.github.teletha:auto483:1.0.0'
+    implementation 'io.github.teletha:auto483:1.0.0'
 }
 ```
 #### [SBT](https://www.scala-sbt.org/)
@@ -55,7 +55,7 @@ resolvers += "jitpack" at "https://jitpack.io"
 ```
 Add it into the libraryDependencies section like so:
 ```scala
-libraryDependencies += "com.github.teletha" % "auto483" % "1.0.0"
+libraryDependencies += "io.github.teletha" % "auto483" % "1.0.0"
 ```
 #### [Leiningen](https://leiningen.org/)
 Add JitPack repository at the end of repositories in your project().clj:
@@ -64,12 +64,12 @@ Add JitPack repository at the end of repositories in your project().clj:
 ```
 Add it into the dependencies section like so:
 ```clj
-:dependencies [[com.github.teletha/auto483 "1.0.0"]]
+:dependencies [[io.github.teletha/auto483 "1.0.0"]]
 ```
 #### [Bee](https://teletha.github.io/bee)
 Add it into your project definition class like so:
 ```java
-require("com.github.teletha", "auto483", "1.0.0");
+require("io.github.teletha", "auto483", "1.0.0");
 ```
 <p align="right"><a href="#top">back to top</a></p>
 
