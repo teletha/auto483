@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1](https://github.com/teletha/auto483/compare/1.0.0...1.0.1) (2026-10-03)
+
+
+### Bug Fixes
+
+* check runtime version ([8c5ce53](https://github.com/teletha/auto483/commit/8c5ce53f0a247be494a207af238936dfa10d3e83))
+* create AOT cache after the record process exits ([72a7be8](https://github.com/teletha/auto483/commit/72a7be8514469f5f8e937d5878bcb6b03d97f449))
+
 ## 1.0.0 (2025-03-28)
 
 
