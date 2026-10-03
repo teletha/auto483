@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  * The {@link #enable()} methods check for the existence of an AOT cache file.
  * If the file doesn't exist, this class orchestrates the necessary steps to
  * generate it. This might involve restarting the application in a special
- * "record" mode or setting up a shutdown hook to create the cache upon exit.
+ * "record" mode and then creating the cache from the recorded configuration.
  *
  * @see <a href="https://openjdk.org/jeps/483">JEP 483: Ahead-of-Time Class Loading & Linking</a>
  */
@@ -58,15 +58,16 @@ public class JEP483 {
      * <li>
      * <b>Normal Mode (Attempting to use cache):</b> If the JVM was started with
      * {@code -XX:AOTCache=<cacheFileName>} but the file is missing, this method
-     * will restart the current application with the {@code -XX:AOTMode=record} flag.
-     * The current process will be terminated ({@code System.exit(0)}). The restarted
-     * process will then run the application and record AOT compilation data.
+     * will restart the current application with the {@code -XX:AOTMode=record} flag
+     * and wait until it terminates. Because the JVM writes the AOT configuration file
+     * while it shuts down, the cache is created only after the record process has
+     * completely exited. The current process is then terminated with the exit code of
+     * the record process.
      * </li>
      * <li>
      * <b>Record Mode:</b> If the JVM was started with {@code -XX:AOTMode=record},
-     * this method registers a shutdown hook. When the application exits normally,
-     * the shutdown hook will launch a new JVM process with {@code -XX:AOTMode=create}
-     * to compile the recorded data into the final AOT cache file.
+     * this method does nothing. The process which started this one is responsible for
+     * creating the cache after this process has terminated.
      * </li>
      * </ul>
      * <p>
@@ -84,7 +85,7 @@ public class JEP483 {
      *            This name is used for both the AOT cache ({@code -XX:AOTCache})
      *            and the AOT configuration file ({@code -XX:AOTConfiguration},
      *            with "conf" appended).
-     * @throws IOError If an I/O error occurs during process creation, file system operations
+     * @throws IOError If an I/O error occurs during process creation or file system operations
      *             (like creating parent directories), or while waiting for the cache
      *             creation process to complete.
      */
@@ -94,59 +95,66 @@ public class JEP483 {
         }
 
         Path file = Path.of(cacheFileName);
-        if (Files.notExists(file)) {
-            List<String> jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
-            List<String> classpath = List.of(System.getProperty("java.class.path").split(";"));
+        if (Files.exists(file)) {
+            // The AOT cache already exists, so the JVM has loaded it while starting up.
+            return;
+        }
 
-            if (jvmArgs.contains("-XX:AOTMode=record")) {
-                // This application is running in training/record mode.
-                // Register a shutdown hook to create the AOT Cache when this app exits.
-                Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                    try {
-                        List<String> command = new ArrayList<>();
-                        command.add(ProcessHandle.current().info().command().get());
-                        command.add("-XX:AOTMode=create");
-                        command.add("-XX:AOTConfiguration=" + cacheFileName + "conf");
-                        command.add("-XX:AOTCache=" + cacheFileName);
-                        command.add("-Xlog:cds=error");
-                        command.add("-cp");
-                        // Filter classpath to include only existing files/directories, especially
-                        // relevant for JARs
-                        command.add(classpath.stream().filter(path -> Files.isRegularFile(Path.of(path))).collect(Collectors.joining(";")));
+        List<String> jvmArgs = ManagementFactory.getRuntimeMXBean().getInputArguments();
+        List<String> classpath = List.of(System.getProperty("java.class.path").split(";"));
 
-                        new ProcessBuilder(command).inheritIO().start().waitFor();
-                    } catch (Exception e) {
-                        throw new Error(e);
-                    }
-                }, "JEP483-Cache-Creator"));
-            } else if (jvmArgs.contains("-XX:AOTCache=" + cacheFileName)) {
-                // This application is running normally or trying to use the cache.
-                // Since the cache file doesn't exist, restart with training/record mode.
-                List<String> javaArgs = List.of(System.getProperty("sun.java.command").split(" "));
+        if (jvmArgs.contains("-XX:AOTMode=record")) {
+            // This application is running in training/record mode. The JVM writes the AOT
+            // configuration file during its shutdown sequence, so the cache can not be created
+            // until this process has completely terminated. The process which started this one
+            // creates the cache after waiting for this process to exit.
+            return;
+        }
 
-                try {
-                    Files.createDirectories(file.getParent());
-
-                    // This application is running normally.
-                    // Restart with training mode.
-                    List<String> command = new ArrayList<>();
-                    command.add(ProcessHandle.current().info().command().get());
-                    command.addAll(jvmArgs.stream().filter(value -> !value.startsWith("-XX:AOT")).toList());
-                    command.add("-XX:AOTMode=record");
-                    command.add("-XX:AOTConfiguration=" + cacheFileName + "conf");
-                    command.add("-Xlog:cds=error");
-                    command.add("-cp");
-                    command.add(classpath.stream().collect(Collectors.joining(";")));
-                    command.addAll(javaArgs);
-
-                    // Restart the process in record mode
-                    new ProcessBuilder(command).inheritIO().start();
-                } catch (Exception e) {
-                    throw new Error(e);
-                } finally {
-                    // Exit the current process cleanly after initiating the restart
-                    System.exit(0);
+        if (jvmArgs.contains("-XX:AOTCache=" + cacheFileName)) {
+            // This application was started with the AOT cache option but the cache file is missing.
+            // Run the application again in training/record mode and wait until it terminates, then
+            // create the AOT cache from the completed configuration file.
+            try {
+                Path parent = file.getParent();
+                if (parent != null) {
+                    Files.createDirectories(parent);
                 }
+
+                // Restart this application in training/record mode.
+                List<String> record = new ArrayList<>();
+                record.add(ProcessHandle.current().info().command().get());
+                record.addAll(jvmArgs.stream().filter(value -> !value.startsWith("-XX:AOT")).toList());
+                record.add("-XX:AOTMode=record");
+                record.add("-XX:AOTConfiguration=" + cacheFileName + "conf");
+                record.add("-Xlog:cds=error");
+                record.add("-cp");
+                record.add(String.join(";", classpath));
+                record.addAll(List.of(System.getProperty("sun.java.command").split(" ")));
+
+                // The AOT configuration file is written while the record process shuts down, so
+                // wait for it to terminate before creating the cache.
+                int exit = new ProcessBuilder(record).inheritIO().start().waitFor();
+
+                // Create the AOT cache from the completed configuration file.
+                List<String> create = new ArrayList<>();
+                create.add(ProcessHandle.current().info().command().get());
+                create.add("-XX:AOTMode=create");
+                create.add("-XX:AOTConfiguration=" + cacheFileName + "conf");
+                create.add("-XX:AOTCache=" + cacheFileName);
+                create.add("-Xlog:cds=error");
+                create.add("-cp");
+                // Filter the classpath to include only existing files (especially relevant for
+                // JARs) because a non-empty directory can not be recorded.
+                create.add(classpath.stream().filter(path -> Files.isRegularFile(Path.of(path))).collect(Collectors.joining(";")));
+
+                new ProcessBuilder(create).inheritIO().start().waitFor();
+
+                // The current process only exists to create the cache, so terminate with the exit
+                // code of the application which actually ran in record mode.
+                System.exit(exit);
+            } catch (Exception e) {
+                throw new Error(e);
             }
         }
     }
