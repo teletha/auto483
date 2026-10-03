@@ -102,7 +102,7 @@ Auto483 depends on the following products on runtime.
 
 
 ## License
-Copyright (C) 2025 The AUTO483 Development Team
+Copyright (C) 2026 The AUTO483 Development Team
 
 MIT License
 
