@@ -14,7 +14,7 @@ import javax.lang.model.SourceVersion;
 
 public class Project extends bee.api.Project {
     {
-        product("com.github.teletha", "auto483", ref("version.txt"));
+        product("io.github.teletha", "auto483", ref("version.txt"));
         license(MIT);
         require(SourceVersion.RELEASE_24);
 
