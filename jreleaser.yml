@@ -2,7 +2,7 @@ project:
   name: auto483
   # Overridden by JRELEASER_PROJECT_VERSION in the release workflow, so that this
   # file does not have to be regenerated every time release-please bumps version.txt.
-  version: '1.0.0'
+  version: '1.0.1'
   links:
     homepage: https://github.com/teletha/auto483
 release:

@@ -23,7 +23,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: The released version, such as 1.0.0. The version of the selected branch is used when this is empty, so a discrepancy quietly publishes the wrong artifacts. Leave it empty only when the branch already carries the version to publish.
+        description: The released version, such as 1.0.1. The version of the selected branch is used when this is empty, so a discrepancy quietly publishes the wrong artifacts. Leave it empty only when the branch already carries the version to publish.
         type: string
         required: false
 
@@ -107,7 +107,7 @@ jobs:
       uses: actions/setup-java@v6
       with:
         distribution: zulu
-        java-version: 27
+        java-version: 25
 
     - name: Cache bee local repository
       uses: actions/cache@v6
