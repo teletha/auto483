@@ -19,10 +19,10 @@
 		<link href="https://cdn.jsdelivr.net/npm/ress@4.0.0/dist/ress.min.css" rel="stylesheet"/>
 		<link href="main.css" rel="stylesheet"/>
 	</head>
-	<body class="HB">
-		<header class="b" date="2025-03-28">
-			<h1 class="c"><a href="index.html"><code>Auto483</code></a></h1>
-			<nav class="N"><a href="api/main.html" id="API"><svg class="package">
+	<body class="EB">
+		<header class="u" date="2026-10-03">
+			<h1 class="M"><a href="index.html"><code>Auto483</code></a></h1>
+			<nav class="W"><a href="api/main.html" id="API"><svg class="package">
 						<use href="main.svg#package"/>
 					</svg>
 				</a><a href="doc/changelog.html" id="Activity"><svg class="activity">
@@ -35,43 +35,43 @@
 						<use href="main.svg#github"/>
 					</svg>
 				</a></nav>
-			<div class="d"><a aria-label="Change color scheme" id="theme"><svg class="sun">
+			<div class="v"><a aria-label="Change color scheme" id="theme"><svg class="sun">
 						<use href="main.svg#sun"/>
 					</svg><svg class="moon">
 						<use href="main.svg#moon"/>
 					</svg>
 				</a></div>
 		</header>
-		<nav class="x"></nav>
-		<article class="f" id="Article">
-			<section class="K"><code class="EB">auto483</code>
-				<h2 class="Class M"><code class="l">JEP483</code></h2>
-				<div class="w"></div><span class="A"><p>Provides support for JEP 483 (Ahead-of-Time Class Loading  Linking).</p><p>
- This utility class helps in managing the creation and usage of Ahead-of-Time (AOT)
- cache files introduced in Java 24. It aims to simplify the process of leveraging
- AOT compilation to potentially improve application startup performance.
- 
+		<nav class="c"></nav>
+		<article class="K" id="Article">
+			<section class="O"><code class="m">auto483</code>
+				<h2 class="Class U"><code class="LB">JEP483</code></h2>
+				<div class="r"></div><span class="A"><p>Provides support for JEP 483 (Ahead-of-Time Class Loading  Linking).</p><p>
+This utility class helps in managing the creation and usage of Ahead-of-Time (AOT)
+cache files introduced in Java 24. It aims to simplify the process of leveraging
+AOT compilation to potentially improve application startup performance.
+
 						<p>
- The <code><a aria-label="auto483.JEP483" href="api/auto483.JEP483.html#enable()">#enable()</a></code> methods check for the existence of an AOT cache file.
- If the file doesn&apos;t exist, this class orchestrates the necessary steps to
- generate it. This might involve restarting the application in a special
- &quot;record&quot; mode and then creating the cache from the recorded configuration.
+The <code><a aria-label="auto483.JEP483" href="api/auto483.JEP483.html#enable()">#enable()</a></code> methods check for the existence of an AOT cache file.
+If the file doesn&apos;t exist, this class orchestrates the necessary steps to
+generate it. This might involve restarting the application in a special
+&quot;record&quot; mode and then creating the cache from the recorded configuration.
 </p>
 					</p>
 				</span></section>
-			<section class="K" id="JEP483()">
-				<h2 class="r"><i class="PUBLIC"></i><code class="l">JEP483</code><code class="LB">()</code></h2>
+			<section class="O" id="JEP483()">
+				<h2 class="k"><i class="PUBLIC"></i><code class="LB">JEP483</code><code class="BB">()</code></h2>
 			</section>
-			<section class="K" id="enable()">
-				<h2 class="r"><i class="STATIC PUBLIC"></i><code class="l">enable</code><code class="LB">()</code><i class="e"><code>void</code></i></h2><span class="A"><p>Enables Ahead-of-Time (AOT) loading and linking using the default cache file name
+			<section class="O" id="enable()">
+				<h2 class="k"><i class="PUBLIC STATIC"></i><code class="LB">enable</code><code class="BB">()</code><i class="X"><code>void</code></i></h2><span class="A"><p>Enables Ahead-of-Time (AOT) loading and linking using the default cache file name
 <code>.aot</code>.</p><p>
- This is a convenience method that calls <code><a aria-label="auto483.JEP483" href="api/auto483.JEP483.html#enable(java.lang.String)">#enable(String)</a></code> with &quot;.aot&quot; as the cache file
- name.
- </p></span></section>
-			<section class="K" id="enable(java.lang.String)">
-				<h2 class="r"><i class="STATIC PUBLIC"></i><code class="l">enable</code><code class="LB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="e"><code>void</code></i></h2>
-				<table class="DB">
-					<tr class="s">
+This is a convenience method that calls <code><a aria-label="auto483.JEP483" href="api/auto483.JEP483.html#enable(java.lang.String)">#enable(String)</a></code> with &quot;.aot&quot; as the cache file
+name.
+</p></span></section>
+			<section class="O" id="enable(java.lang.String)">
+				<h2 class="k"><i class="PUBLIC STATIC"></i><code class="LB">enable</code><code class="BB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="X"><code>void</code></i></h2>
+				<table class="i">
+					<tr class="e">
 						<td><code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code></td>
 						<td><span><p>The name (or path) of the AOT cache file to use or create.
 This name is used for both the AOT cache (<code>-XX:AOTCache</code>)
@@ -79,45 +79,45 @@ and the AOT configuration file (<code>-XX:AOTConfiguration</code>,
 with &quot;conf&quot; appended).</p></span></td>
 					</tr>
 				</table><span class="A"><p>Enables Ahead-of-Time (AOT) loading and linking using the specified cache file name.</p><p>
- This method checks if the specified AOT cache file exists. If it does not exist,
- it manages the process of generating the cache based on the current JVM execution mode:
- </p><ul>
+This method checks if the specified AOT cache file exists. If it does not exist,
+it manages the process of generating the cache based on the current JVM execution mode:
+</p><ul>
 						<li><b>Normal Mode (Attempting to use cache):</b> If the JVM was started with
- <code>-XX:AOTCache=&lt;cacheFileName&gt;</code> but the file is missing, this method
- will restart the current application with the <code>-XX:AOTMode=record</code> flag
- and wait until it terminates. Because the JVM writes the AOT configuration file
- while it shuts down, the cache is created only after the record process has
- completely exited. The current process is then terminated with the exit code of
- the record process.
- </li>
+<code>-XX:AOTCache=&lt;cacheFileName&gt;</code> but the file is missing, this method
+will restart the current application with the <code>-XX:AOTMode=record</code> flag
+and wait until it terminates. Because the JVM writes the AOT configuration file
+while it shuts down, the cache is created only after the record process has
+completely exited. The current process is then terminated with the exit code of
+the record process.
+</li>
 						<li><b>Record Mode:</b> If the JVM was started with <code>-XX:AOTMode=record</code>,
- this method does nothing. The process which started this one is responsible for
- creating the cache after this process has terminated.
- </li>
+this method does nothing. The process which started this one is responsible for
+creating the cache after this process has terminated.
+</li>
 					</ul><p>
- If the cache file already exists, this method does nothing, allowing the JVM to
- load the AOT cache as configured.
- </p><p>
- Note: The cache generation process involves starting new JVM processes. Ensure that
- the necessary permissions and environment setup are in place for this to succeed.
- The classpath used for the cache generation process is derived from the current
- application&apos;s classpath.
- </p></span></section>
+If the cache file already exists, this method does nothing, allowing the JVM to
+load the AOT cache as configured.
+</p><p>
+Note: The cache generation process involves starting new JVM processes. Ensure that
+the necessary permissions and environment setup are in place for this to succeed.
+The classpath used for the cache generation process is derived from the current
+application&apos;s classpath.
+</p></span></section>
 		</article>
-		<aside class="o">
-			<div class="JB">
-				<h5 class="L">Constructors</h5>
+		<aside class="l">
+			<div class="f">
+				<h5 class="s">Constructors</h5>
 				<ul>
-					<li class="t"><i class="PUBLIC"></i><code><a href="api/auto483.JEP483.html#JEP483()">JEP483</a></code><code class="LB">()</code></li>
+					<li class="g"><i class="PUBLIC"></i><code><a href="api/auto483.JEP483.html#JEP483()">JEP483</a></code><code class="BB">()</code></li>
 				</ul>
-				<h5 class="L">Static Methods</h5>
+				<h5 class="s">Static Methods</h5>
 				<ul>
-					<li class="t"><i class="STATIC PUBLIC"></i><code><a href="api/auto483.JEP483.html#enable()">enable</a></code><code class="LB">()</code><i class="z"><code>void</code></i></li>
-					<li class="t"><i class="STATIC PUBLIC"></i><code><a href="api/auto483.JEP483.html#enable(java.lang.String)">enable</a></code><code class="LB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="z"><code>void</code></i></li>
+					<li class="g"><i class="PUBLIC STATIC"></i><code><a href="api/auto483.JEP483.html#enable()">enable</a></code><code class="BB">()</code><i class="Z"><code>void</code></i></li>
+					<li class="g"><i class="PUBLIC STATIC"></i><code><a href="api/auto483.JEP483.html#enable(java.lang.String)">enable</a></code><code class="BB">(<code><a aria-label="java.lang.String 🚀" href="https://docs.oracle.com/en/java/javase/24/docs/api/java.base/java/lang/String.html">String</a></code><code class="parameterName">cacheFileName</code>)</code><i class="Z"><code>void</code></i></li>
 				</ul>
 			</div>
 		</aside>
-		<footer class="V">
+		<footer class="j">
 			<p>Powered by <a href="https://github.com/teletha/evergarden" target="_">Evergarden</a></p>
 		</footer>
 	</body>
