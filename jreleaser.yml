@@ -1,0 +1,41 @@
+project:
+  name: auto483
+  # Overridden by JRELEASER_PROJECT_VERSION in the release workflow, so that this
+  # file does not have to be regenerated every time release-please bumps version.txt.
+  version: '1.0.0'
+  links:
+    homepage: https://github.com/teletha/auto483
+release:
+  github:
+    owner: teletha
+    name: auto483
+    tagName: '{{projectVersion}}'
+    # The tag and the GitHub Release are created by release-please when its release
+    # PR is merged. JReleaser must not create them a second time.
+    skipTag: true
+    skipRelease: true
+    changelog:
+      formatted: ALWAYS
+files:
+  globs:
+    - pattern: target/auto483-{{projectVersion}}.jar
+    - pattern: target/auto483-{{projectVersion}}-sources.jar
+    - pattern: target/auto483-{{projectVersion}}-javadoc.jar
+signing:
+  pgp:
+    active: RELEASE
+    armored: true
+    # The key material is injected through JRELEASER_GPG_SECRET_KEY,
+    # JRELEASER_GPG_PUBLIC_KEY and JRELEASER_GPG_PASSPHRASE.
+deploy:
+  maven:
+    mavenCentral:
+      central:
+        active: RELEASE
+        url: https://central.sonatype.com/api/v1/publisher
+        # The directory prepared by the release workflow, in Maven repository layout.
+        stagingRepositories:
+          - target/staging-deploy
+        # The registered namespace of the Sonatype Central Portal account.
+        namespace: io.github.teletha
+        applyMavenCentralRules: true
