@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/teletha/auto483/compare/1.0.1...1.0.2) (2026-10-03)
+
+
+### Bug Fixes
+
+* ci process ([1cbf22b](https://github.com/teletha/auto483/commit/1cbf22b4915c48e414ad064b8fc57417250edf6b))
+
 ## [1.0.1](https://github.com/teletha/auto483/compare/1.0.0...1.0.1) (2026-10-03)
 
 
