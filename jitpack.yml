@@ -1,10 +1,10 @@
 jdk:
-  - openjdk25
+  - openjdk24
 
 before_install:
-  - sdk install java 25-open
-  - sdk use java 25-open
-  - export PATH="$HOME/.sdkman/candidates/java/25-open/bin:$PATH"
+  - sdk install java 24-open
+  - sdk use java 24-open
+  - export PATH="$HOME/.sdkman/candidates/java/24-open/bin:$PATH"
 
 install: |
   if [ -e "bee" ]; then
@@ -16,8 +16,9 @@ install: |
   fi
 
   # To support SNAPSHOT and Commit ID version, read the VERSION in version.txt,
-  # not the VERSION in the environment variable.
-  ProductVersion=$(cat version.txt | xargs)
+  # not the VERSION in the environment variable. The carriage return is removed
+  # because a version.txt written on Windows may end with a CRLF.
+  ProductVersion=$(tr -d '\r' < version.txt | xargs)
 
   # Until the end of 2024, Jitpack would recognize it as an Artifact if I put the appropriate
   # Jar files, etc. in the right place. However, since 2025, Jitpack no longer recognizes them.

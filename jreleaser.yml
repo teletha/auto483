@@ -1,8 +1,10 @@
 project:
   name: auto483
-  # Overridden by JRELEASER_PROJECT_VERSION in the release workflow, so that this
-  # file does not have to be regenerated every time release-please bumps version.txt.
-  version: '1.0.1'
+  # Rewritten by the release workflow to the released version, so the committed
+  # default is only a placeholder.
+  version: '0.0.0'
+  java:
+    groupId: io.github.teletha
   links:
     homepage: https://github.com/teletha/auto483
 release:
@@ -10,12 +12,27 @@ release:
     owner: teletha
     name: auto483
     tagName: '{{projectVersion}}'
-    # The tag and the GitHub Release are created by release-please when its release
-    # PR is merged. JReleaser must not create them a second time.
+    # The release title. The JReleaser default is "Release {{tagName}}", which
+    # reads as "Release 0.81.1". Use the product name and the version instead,
+    # such as "bee 0.81.1".
+    releaseName: '{{projectName}} {{projectVersion}}'
+    # The tag is created by the release task, so JReleaser creates only the GitHub
+    # Release. The changelog is generated from the conventional commits. An existing
+    # release is updated, so a failed release can be retried.
     skipTag: true
-    skipRelease: true
+    skipRelease: false
+    overwrite: true
     changelog:
       formatted: ALWAYS
+      preset: conventional-commits
+      # Merge commits and commits which do not follow the conventional format are
+      # not shown.
+      skipMergeCommits: true
+      contributors:
+        enabled: false
+      hide:
+        uncategorized: true
+        categories: [merge]
 files:
   globs:
     - pattern: target/auto483-{{projectVersion}}.jar

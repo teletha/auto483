@@ -22,7 +22,6 @@ jobs:
     timeout-minutes: 10
     permissions:
       contents: write
-      pull-requests: write
     steps:
     - name: Check out repository
       uses: actions/checkout@v7
@@ -31,7 +30,7 @@ jobs:
       uses: actions/setup-java@v6
       with:
         distribution: zulu
-        java-version: 25
+        java-version: 24
 
     - name: Cache bee local repository
       uses: actions/cache@v6
@@ -60,32 +59,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: target/site
-
-    - name: Request Releasing
-      if: github.event_name != 'pull_request'
-      id: release
-      uses: googleapis/release-please-action@v3.7.13
-      with:
-        release-type: simple
-        package-name: auto483
-        include-v-in-tag: false
-
-    # The Release which the step above publishes is an event raised by the built-in
-    # GITHUB_TOKEN, and such an event never starts a workflow run. This starts the
-    # publish workflow from here instead, because a repository dispatch is one of
-    # the only two events which the GITHUB_TOKEN may still raise a run with.
-    # The version which was just released is given to the run through the payload.
-    # Reading it from the checked out revision instead would read the version of
-    # whatever the default branch holds when the run starts, and a manual run has
-    # no payload and falls back to that revision with version.txt.
-    - name: Notify the release workflow
-      if: github.event_name != 'pull_request' && steps.release.outputs.release_created == 'true'
-      env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        gh api --method POST "repos/$GITHUB_REPOSITORY/dispatches" \
-          -f event_type=release \
-          -f "client_payload[version]=${{ steps.release.outputs.version }}"
 
     - name: Auto commit
       if: github.event_name != 'pull_request'
