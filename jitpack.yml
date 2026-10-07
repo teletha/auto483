@@ -25,3 +25,14 @@ install: |
   # But, I found that I could build without any problem if I sent the following Maven log-like
   # string to standard output. NO WAY!
   echo "[INFO] Installing /home/jitpack/build/pom.xml to /home/jitpack/.m2/repository/${GROUP//./\/}/${ARTIFACT}/${ProductVersion}/${ARTIFACT}-${ProductVersion}.pom"
+
+  # The GitHub package registry and JitPack use different namespaces for the
+  # same repository, so a group under one namespace is mirrored to the other.
+  case "$GROUP" in
+    com.github.*) AltGroup="io.github.${GROUP#com.github.}" ;;
+    io.github.*) AltGroup="com.github.${GROUP#io.github.}" ;;
+    *) AltGroup="" ;;
+  esac
+  if [ -n "$AltGroup" ]; then
+    echo "[INFO] Installing /home/jitpack/build/pom.xml to /home/jitpack/.m2/repository/${AltGroup//./\/}/${ARTIFACT}/${ProductVersion}/${ARTIFACT}-${ProductVersion}.pom"
+  fi
