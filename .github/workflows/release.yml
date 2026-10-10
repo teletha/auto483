@@ -12,7 +12,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: The released version, such as 1.1.1.
+        description: The released version, such as 1.2.3.
         type: string
         required: true
 
@@ -26,12 +26,11 @@ defaults:
   run:
     shell: bash
 
-# A publish must never be cancelled halfway, and a re-dispatch must wait for the
-# running one rather than deploying the same version at the same time. The version
-# is part of the group, because a manual run of another version is not the same
-# deploy.
+# The build and the release share the group and never cancel each other, so a
+# release is never interrupted and the two write to the repository one at a time.
+# A re-dispatch waits for the running one instead of deploying at the same time.
 concurrency:
-  group: release-${{ github.event.client_payload.version || inputs.version }}
+  group: ${{ github.repository }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -107,7 +106,7 @@ jobs:
           source bee install
         else
           version=$(curl -SsL https://git.io/stable-bee)
-          curl -SsL -o bee-${version}.jar https://jitpack.io/com/github/teletha/bee/${version}/bee-${version}.jar
+          curl -SsL -o bee-${version}.jar https://jitpack.io/io/github/teletha/bee/${version}/bee-${version}.jar
           java -XX:+TieredCompilation -XX:TieredStopAtLevel=1 -cp bee-${version}.jar bee.Bee install
         fi
 
@@ -177,4 +176,4 @@ jobs:
       run: |
         # JitPack builds the tagged revision on demand. Trigger it now so the
         # artifact is ready before someone requests it. Do not wait for the outcome.
-        curl -sS "https://jitpack.io/api/builds/com.github.teletha/auto483/${PRODUCT_VERSION}" > /dev/null || true
+        curl -sS "https://jitpack.io/api/builds/io.github.teletha/auto483/${PRODUCT_VERSION}" > /dev/null || true

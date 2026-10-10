@@ -1,21 +1,43 @@
 jdk:
-  - openjdk25
+  - openjdk24
 
 before_install:
-  - sdk install java 25-open
-  - sdk use java 25-open
-  - export PATH="$HOME/.sdkman/candidates/java/25-open/bin:$PATH"
+  - sdk install java 24-open
+  - sdk use java 24-open
+  - export PATH="$HOME/.sdkman/candidates/java/24-open/bin:$PATH"
 
 install: |
-  if [ -e "bee" ]; then
-    source bee install maven --skip test
+  if [ -f "./bee" ]; then
+    source ./bee install maven --skip test
   else
-    # Resolve the stable version and obtain a valid bee jar. The GitHub release is
-    # tried first because JitPack can serve a redirect page instead of its own jar.
+    # Resolve the stable version and obtain a valid bee jar from JitPack.
     BeeVersion=$(curl -fsSL https://git.io/stable-bee) || exit 1
-    curl -fsSL -o bee-${BeeVersion}.jar https://github.com/teletha/bee/releases/download/${BeeVersion}/bee-${BeeVersion}.jar || curl -fsSL -o bee-${BeeVersion}.jar https://jitpack.io/com/github/teletha/bee/${BeeVersion}/bee-${BeeVersion}.jar || exit 1
-    jar tf bee-${BeeVersion}.jar | grep -qx 'bee/Bee.class' || { echo "Failed to obtain a valid bee [${BeeVersion}] jar."; exit 1; }
-    java -cp bee-${BeeVersion}.jar bee.Bee install maven --skip test
+    BeeJar="bee-${BeeVersion}.jar"
+    BeeUrl="https://jitpack.io/io/github/teletha/bee/${BeeVersion}/${BeeJar}"
+    valid=""
+
+    # JitPack can serve an error page instead of the jar, and a freshly
+    # downloaded file can be denied for a moment, so the download and the
+    # validation are retried.
+    for attempt in 1 2 3 4 5; do
+      if curl -fsSL -o "$BeeJar" "$BeeUrl" &&
+         java -cp "$BeeJar" bee.Bee --version >/dev/null 2>&1; then
+        valid="yes"
+        break
+      fi
+
+      if [ "$attempt" -lt 5 ]; then
+        echo "Retrying to obtain a valid bee [${BeeVersion}] jar (attempt ${attempt})..."
+        sleep 30
+      fi
+    done
+
+    if [ -z "$valid" ]; then
+      echo "Failed to obtain a valid bee [${BeeVersion}] jar."
+      exit 1
+    fi
+
+    java -cp "$BeeJar" bee.Bee install maven --skip test
   fi
 
   # To support SNAPSHOT and Commit ID version, read the VERSION in version.txt,
